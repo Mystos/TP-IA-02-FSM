@@ -4,25 +4,34 @@ using UnityEngine;
 
 public class RunState : PlayerState
 {
+
+    public override void Update(StateMachine stateMachine)
+    {
+        this.HandleInput(stateMachine);
+    }
+
     public override PlayerState HandleInput(StateMachine stateMachine)
     {
         if (Input.GetAxis("Horizontal") < 0.3f || Input.GetAxis("Horizontal") > -0.3f)
         {
-            stateMachine.SetState(PlayerState.idleState);
+            if (stateMachine.GetState().GetType() != typeof(IdleState))
+            {
+                stateMachine.SetState(PlayerState.idleState);
+            }
         }
 
         return stateMachine.GetState();
     }
 
-    public override IEnumerator Start()
+    public override IEnumerator Start(StateMachine stateMachine)
     {
+
         Debug.Log("Start RunState");
 
-        return base.Start();
+        stateMachine.animator.Play("PlayerRun");
+
+        return base.Start(stateMachine);
     }
 
-    public override void Update(StateMachine stateMachine)
-    {
-        base.Update(stateMachine);
-    }
+
 }

@@ -12,5 +12,5 @@ public abstract class PlayerState
 
     public virtual PlayerState HandleInput(StateMachine stateMachine) { return null; }
     public virtual void Update(StateMachine stateMachine) {}
-    public virtual IEnumerator Start() { yield break; }
+    public virtual IEnumerator Start(StateMachine stateMachine) { yield break; }
 }

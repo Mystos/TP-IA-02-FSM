@@ -8,21 +8,26 @@ public class IdleState : PlayerState
     {
         if (Input.GetAxis("Horizontal") > 0.3f || Input.GetAxis("Horizontal") < -0.3f)
         {
-            stateMachine.SetState(PlayerState.runState);
+            if(stateMachine.GetState().GetType() != typeof(RunState))
+            {
+                stateMachine.SetState(PlayerState.runState);
+            }
         }
 
         return stateMachine.GetState();
     }
 
-    public override IEnumerator Start()
+    public override IEnumerator Start(StateMachine stateMachine)
     {
         Debug.Log("Start IdleState");
 
-        return base.Start();
+        stateMachine.animator.Play("PlayerIdle");
+
+        return base.Start(stateMachine);
     }
 
     public override void Update(StateMachine stateMachine)
     {
-        base.Update(stateMachine);
+        this.HandleInput(stateMachine);
     }
 }

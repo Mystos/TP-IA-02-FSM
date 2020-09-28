@@ -6,16 +6,18 @@ using UnityEngine;
 public abstract class StateMachine : MonoBehaviour
 {
     protected PlayerState state;
+    public Animator animator;
 
     public void HandleInput()
     {
-        state.HandleInput(this);
+        state.Update(this);
     }
 
     public void SetState(PlayerState state)
     {
         this.state = state;
-        StartCoroutine(this.state.Start());
+        this.state.Start(this);
+        //StartCoroutine(this.state.Start(this));
     }
 
     public PlayerState GetState()
